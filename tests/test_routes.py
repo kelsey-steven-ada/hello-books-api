@@ -1,6 +1,6 @@
 def test_get_all_books_with_no_records(client):
     # Act
-    response = client.get("/books/")
+    response = client.get("/books")
     response_body = response.get_json()
 
     # Assert
