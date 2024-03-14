@@ -5,7 +5,7 @@ from .db import db
 
 books_bp = Blueprint("books_bp", __name__, url_prefix="/books")
 
-@books_bp.post("/")
+@books_bp.post("")
 def create_book():
     request_body = request.get_json()
     title = request_body.get("title")
@@ -22,7 +22,7 @@ def create_book():
     }
     return make_response(response, 201)
 
-@books_bp.get("/")
+@books_bp.get("")
 def get_all_books():
     query = db.select(Book)
 
