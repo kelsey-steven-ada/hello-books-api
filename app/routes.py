@@ -57,13 +57,13 @@ def get_all_books():
 
 @books_bp.get("/<book_id>")
 def get_one_book(book_id):
-    book = validate_book(book_id)
+    book = validate_model(Book, book_id)
 
     return book.to_dict()
 
 @books_bp.put("/<book_id>")
 def update_book(book_id):
-    book = validate_book(book_id)
+    book = validate_model(Book, book_id)
     request_body = request.get_json()
 
     book.title = request_body.get("title")
@@ -74,24 +74,24 @@ def update_book(book_id):
 
 @books_bp.delete("/<book_id>")
 def delete_book(book_id):
-    book = validate_book(book_id)
+    book = validate_model(Book, book_id)
     db.session.delete(book)
     db.session.commit()
 
     return Response(status=204)
 
-def validate_book(book_id):
+def validate_model(cls, model_id):
     try:
-        book_id = int(book_id)
+        model_id = int(model_id)
     except:
-        response = {"message": f"book {book_id} invalid"}
+        response = {"message": f"{cls.__name__} {model_id} invalid"}
         abort(make_response(response , 400))
 
-    query = db.select(Book).where(Book.id == book_id)
-    book = db.session.scalar(query)
-    if book:
-        return book
-
-    response = {"message": f"book {book_id} not found"}
-    abort(make_response(response, 404))
-
+    query = db.select(cls).where(cls.id == model_id)
+    model = db.session.scalar(query)
+    
+    if not model:
+        response = {"message": f"{cls.__name__} {model_id} not found"}
+        abort(make_response(response, 404))
+    
+    return model
