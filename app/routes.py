@@ -59,9 +59,9 @@ def validate_book(book_id):
 
     query = db.select(Book).where(Book.id == book_id)
     book = db.session.scalar(query)
-    if book:
-        return book
+    
+    if not book:
+        response = {"message": f"book {book_id} not found"}
+        abort(make_response(response, 404))
 
-    response = {"message": f"book {book_id} not found"}
-    abort(make_response(response, 404))
-
+    return book
