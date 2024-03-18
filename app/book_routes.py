@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, abort, make_response, request, Response
 from app.models.book import Book
-from sqlalchemy import select
 from .db import db
 
 bp = Blueprint("books_bp", __name__, url_prefix="/books")
