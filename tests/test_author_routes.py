@@ -24,7 +24,7 @@ def test_create_one_author_no_name(client):
     assert response.status_code == 400
     assert response_body == {'message': 'Invalid request: missing name'}
 
-def test_create_one_book_with_extra_keys(client):
+def test_create_one_author_with_extra_keys(client):
     # Arrange
     test_data = {
         "extra": "some stuff",
