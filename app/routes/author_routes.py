@@ -2,7 +2,6 @@ from flask import Blueprint, jsonify, abort, make_response, request, Response
 from app.models.author import Author
 from app.models.book import Book
 from .model_services import create_model, get_models_with_filters, validate_model
-from ..db import db
 
 bp = Blueprint("authors_bp", __name__, url_prefix="/authors")
 
