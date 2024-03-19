@@ -39,7 +39,7 @@ def test_to_dict_missing_name():
 
 def test_from_dict_returns_author():
     # Arrange
-    author_data = { "name": "New Author"}
+    author_data = {"name": "New Author"}
 
     # Act
     new_author = Author.from_dict(author_data)
