@@ -1,20 +1,30 @@
 from app.models.book import Book
+from app.models.author import Author
+from app.models.genre import Genre
 import pytest
 
 def test_to_dict_no_missing_data():
     # Arrange
-    test_data = Book(id = 1,
-                    title="Ocean Book",
-                    description="watr 4evr")
+    author = Author(id=1, name="New Author")
+    genre = Genre(id=1, name="New Genre")
+    test_data = Book(
+        id = 1,
+        title="Ocean Book",
+        description="watr 4evr",
+        author=author,
+        genres=[genre]
+    )
 
     # Act
     result = test_data.to_dict()
 
     # Assert
-    assert len(result) == 3
+    assert len(result) == 5
     assert result["id"] == 1
     assert result["title"] == "Ocean Book"
     assert result["description"] == "watr 4evr"
+    assert result["author"] == "New Author"
+    assert result["genres"] == ["New Genre"]
 
 def test_to_dict_missing_id():
     # Arrange
@@ -58,7 +68,7 @@ def test_to_dict_missing_description():
     assert result["title"] == "Ocean Book"
     assert result["description"] is None
 
-def test_from_dict_returns_book():
+def test_from_dict_required_properties_only_returns_book():
     # Arrange
     book_data = {
         "title": "New Book",
@@ -71,6 +81,26 @@ def test_from_dict_returns_book():
     # Assert
     assert new_book.title == "New Book"
     assert new_book.description == "The Best!"
+
+def test_from_dict_all_properties_returns_book():
+    # Arrange
+    author = Author(id=1, name="New Author")
+    genre = Genre(id=1, name="New Genre")
+    book_data = {
+        "title": "New Book",
+        "description": "The Best!",
+        "author_id": 1,
+        "genres": [genre]
+    }
+
+    # Act
+    new_book = Book.from_dict(book_data)
+
+    # Assert
+    assert new_book.title == "New Book"
+    assert new_book.description == "The Best!"
+    assert new_book.author_id == 1
+    assert new_book.genres == [genre]
 
 def test_from_dict_with_no_title():
     # Arrange
