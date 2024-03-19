@@ -1,9 +1,9 @@
-from app.models.author import Author
+from app.models.genre import Genre
 import pytest
 
 def test_to_dict_no_missing_data():
     # Arrange
-    test_data = Author(id = 1, name="New Author")
+    test_data = Genre(id = 1, name="New Genre")
 
     # Act
     result = test_data.to_dict()
@@ -11,11 +11,11 @@ def test_to_dict_no_missing_data():
     # Assert
     assert len(result) == 2
     assert result["id"] == 1
-    assert result["name"] == "New Author"
+    assert result["name"] == "New Genre"
 
 def test_to_dict_missing_id():
     # Arrange
-    test_data = Author(name="New Author")
+    test_data = Genre(name="New Genre")
 
     # Act
     result = test_data.to_dict()
@@ -23,11 +23,11 @@ def test_to_dict_missing_id():
     # Assert
     assert len(result) == 2
     assert result["id"] is None
-    assert result["name"] == "New Author"
+    assert result["name"] == "New Genre"
 
 def test_to_dict_missing_name():
     # Arrange
-    test_data = Author(id=1)
+    test_data = Genre(id=1)
 
     # Act
     result = test_data.to_dict()
@@ -37,36 +37,36 @@ def test_to_dict_missing_name():
     assert result["id"] == 1
     assert result["name"] is None
 
-def test_from_dict_returns_author():
+def test_from_dict_returns_genre():
     # Arrange
-    author_data = {"name": "New Author"}
+    genre_data = {"name": "New Genre"}
 
     # Act
-    new_author = Author.from_dict(author_data)
+    new_genre = Genre.from_dict(genre_data)
 
     # Assert
-    assert new_author.name == "New Author"
+    assert new_genre.name == "New Genre"
 
 def test_from_dict_with_no_name():
     # Arrange
-    author_data = {}
+    genre_data = {}
 
     # Act & Assert
     with pytest.raises(KeyError, match = 'name'):
-        new_book = Author.from_dict(author_data)
+        new_book = Genre.from_dict(genre_data)
 
 def test_from_dict_with_extra_keys():
     # Arrange
-    author_data = {
+    genre_data = {
         "extra": "some stuff",
-        "name": "New Author",
+        "name": "New Genre",
         "another": "last value"
     }
     
     # Act
-    new_author = Author.from_dict(author_data)
+    new_genre = Genre.from_dict(genre_data)
 
     # Assert
-    assert new_author.name == "New Author"
-    assert hasattr(new_author, "extra") == False
-    assert hasattr(new_author, "another") == False
+    assert new_genre.name == "New Genre"
+    assert hasattr(new_genre, "extra") == False
+    assert hasattr(new_genre, "another") == False
