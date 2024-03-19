@@ -22,7 +22,9 @@ class Book(db.Model):
     
     @classmethod
     def from_dict(cls, book_data):
+        # Use get() to fetch values that could be undefined to avoid raising an error
         author_id = book_data.get("author_id")
+
         new_book = Book(
             title=book_data["title"],
             description=book_data["description"],
