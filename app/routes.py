@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, abort, make_response, request, Response
+from flask import Blueprint, abort, make_response, request, Response
 from app.models.book import Book
 from .db import db
 
@@ -48,7 +48,7 @@ def get_all_books():
     books_response = []
     for book in books:
         books_response.append(book.to_dict())
-    return jsonify(books_response)
+    return books_response
 
 @books_bp.get("/<book_id>")
 def get_one_book(book_id):
