@@ -1,4 +1,4 @@
-from flask import abort, make_response, jsonify
+from flask import abort, make_response
 from ..db import db
 
 def validate_model(cls, model_id):
@@ -42,4 +42,4 @@ def get_models_with_filters(cls, filters=None):
     models_response = []
     for model in models:
         models_response.append(model.to_dict())
-    return jsonify(models_response)
+    return models_response
